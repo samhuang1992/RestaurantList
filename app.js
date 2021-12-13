@@ -1,16 +1,31 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 4000
 // 載入handlebars
 const exphbs = require('express-handlebars')
+
+const mongoose = require('mongoose') //載入restaurant modal
 // 載入json api
-const restaurantList = require('./restaurant.json')
+const restaurant = require('./models/restaurant')
+mongoose.connect('mongodb://localhost/restaurant_list') //與資料庫連線
+
+// 取得資料庫連線狀態
+const db = mongoose.connection
+// 連線異常
+db.on('error', () => {
+  console.log('mongodb error')
+})
+// 連線成功
+db.once('open', () => {
+  console.log('mondodb connected')
+
+})
 
 // use static
 app.use(express.static('public'))
 
 // setting template engine
-app.engine('handlebars', exphbs({defult: 'main'}))
+app.engine('handlebars', exphbs({defaultLayouts: 'main'}))
 app.set('view engine', 'handlebars')
 
 // List data
