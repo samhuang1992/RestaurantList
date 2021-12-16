@@ -1,13 +1,16 @@
 const express = require('express')
+// body-parser
+const bodyParser = require('body-parser')
 const app = express()
 const port = 4000
 // 載入handlebars
 const exphbs = require('express-handlebars')
-
-const mongoose = require('mongoose') //載入restaurant modal
-// 載入json api
-const restaurant = require('./models/restaurant')
+const mongoose = require('mongoose')
+//載入restaurant modal
+const Restaurant = require('./models/restaurant')
 mongoose.connect('mongodb://localhost/restaurant_list') //與資料庫連線
+
+app.use(bodyParser.urlencoded({ extended: true}))
 
 // 取得資料庫連線狀態
 const db = mongoose.connection
@@ -25,29 +28,43 @@ db.once('open', () => {
 app.use(express.static('public'))
 
 // setting template engine
-app.engine('handlebars', exphbs({defaultLayouts: 'main'}))
-app.set('view engine', 'handlebars')
+app.engine('hbs', exphbs({defaultLayouts: 'main', extname: '.hbs'}))
+app.set('view engine', 'hbs')
 
-// List data
+// index 
 app.get('/', (req, res) => {
-  // console.log(restaurantList.results)
-  res.render('index', {list: restaurantList.results})
+  Restaurant.find() //找到Restaurant Model裡的所有資料
+    .lean()
+    .then(restaurants => res.render('index', { restaurants }))
+    .catch(error => console.log(error))
 })
 
-// click List
-app.get('/restaurants/:list_id', (req, res) => {
+// get new
+app.get('/restaurants/new', (req, res) => {
+  return res.render('new')
+})
 
-  const list = restaurantList.results.find(list =>
-    list.id.toString() === req.params.list_id
-  )
-  // console.log('list', req.params.list_id)
-  res.render('show', {listPage: list})
+// post new
+app.post('/restaurants', (req, res) => {
+Restaurant.create(req.body)
+  .then(() => {res.redirect('/')})
+  .then(error => console.log(error))
+})
+
+// click index
+app.get('/restaurants/:id', (req, res) => {
+  const id = req.params.id
+  console.log(id)
+  return Restaurant.findById(id)
+    .lean()
+    .then(restaurant => res.render('detail', {restaurant}))
+    .catch(error => console.log(error))
 })
 
 // search get
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword
-  const search = restaurantList.results.filter(data => 
+  const search = Restaurant.results.filter(data => 
     data.name.toLowerCase().includes(keyword) || data.category.includes(keyword)
   )
   res.render('index', {search: search, keyword: keyword})
