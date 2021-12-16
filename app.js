@@ -54,11 +54,24 @@ Restaurant.create(req.body)
 // click index
 app.get('/restaurants/:id', (req, res) => {
   const id = req.params.id
-  console.log(id)
+  // console.log(id)
   return Restaurant.findById(id)
     .lean()
     .then(restaurant => res.render('detail', {restaurant}))
     .catch(error => console.log(error))
+})
+
+// edit get detail page
+app.get('restaurants/:id/edit', (req,res) => {
+  const id = req.params.id
+  return Restaurant.findById(id)
+    .lean()
+    .then(restaurant => res.render('edit', { restaurant }))
+    .catch(error => console.log(error))
+})
+// edit post detail page
+app.post('restaurants/:id/edit', (req,res) => {
+
 })
 
 // search get
