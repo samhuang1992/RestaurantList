@@ -62,25 +62,60 @@ app.get('/restaurants/:id', (req, res) => {
 })
 
 // edit get detail page
-app.get('restaurants/:id/edit', (req,res) => {
+// app.get('restaurants/:id/edit', (req, res) => {
+//   const id = req.params.id
+//   return Restaurant.findById(id)
+//     .lean()
+//     .then(restaurant => res.render('edit', { restaurant }))
+//     .catch(error => console.log(error))
+// })
+
+app.get('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
     .lean()
     .then(restaurant => res.render('edit', { restaurant }))
-    .catch(error => console.log(error))
+    .catch(error => console.error(error))
 })
 // edit post detail page
-app.post('restaurants/:id/edit', (req,res) => {
-
+app.post('/restaurants/:id/edit', (req, res) => {
+  const id = req.params.id
+  // const id = req.params
+  const {name, nameEn, category, location, phone, rating, image, description, googleMap } = req.body
+  return Restaurant.findById(id)
+    .then(restaurant => {
+      restaurant.name = name
+      restaurant.nameEn = nameEn
+      restaurant.category = category
+      restaurant.location = location
+      restaurant.phone = phone
+      restaurant.image = image
+      restaurant.description = description
+      restaurant.rating = rating
+      restaurant.googleMap = googleMap
+      return restaurant.save()
+    })
+    .then(() => res.redirect(`/restaurants/${id}/edit`))
+    .catch(error => console.log(error))
 })
 
-// search get
+// delete restaurant
+app.post('/restaurants/:id/delete', (req, res) => {
+  const id = req.params.id
+  Restaurant.findById(id)
+    .then((restaurant) => restaurant.remove())
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
+// search restaurant
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword
   const search = Restaurant.results.filter(data => 
     data.name.toLowerCase().includes(keyword) || data.category.includes(keyword)
   )
-  res.render('index', {search: search, keyword: keyword})
+  console.log(search)
+  res.render('index', { search })
 })
 
 app.listen(port, () => {
