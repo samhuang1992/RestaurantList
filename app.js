@@ -2,7 +2,7 @@ const express = require('express')
 // body-parser
 const bodyParser = require('body-parser')
 const app = express()
-const port = 4000
+const port = 3000
 // 載入handlebars
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
@@ -39,6 +39,21 @@ app.get('/', (req, res) => {
     .catch(error => console.log(error))
 })
 
+// search restaurant
+app.get('/search', (req, res) => {
+  const keyword = req.query.keyword
+  Restaurant.find()
+    .lean()
+    .then((restaurants) => {
+      const search = restaurants.filter(restaurant => {
+        return (restaurant.name.toLowerCase().includes(keyword.toLowerCase()) ||
+          restaurant.category.toLowerCase().includes(keyword.toLowerCase()))
+      })
+      res.render('index', { restaurants: search, keyword })
+    })
+    .catch(error => console.log(error))
+})
+
 // get new
 app.get('/restaurants/new', (req, res) => {
   return res.render('new')
@@ -62,14 +77,6 @@ app.get('/restaurants/:id', (req, res) => {
 })
 
 // edit get detail page
-// app.get('restaurants/:id/edit', (req, res) => {
-//   const id = req.params.id
-//   return Restaurant.findById(id)
-//     .lean()
-//     .then(restaurant => res.render('edit', { restaurant }))
-//     .catch(error => console.log(error))
-// })
-
 app.get('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
@@ -109,14 +116,16 @@ app.post('/restaurants/:id/delete', (req, res) => {
 })
 
 // search restaurant
-app.get('/search', (req, res) => {
-  const keyword = req.query.keyword
-  const search = Restaurant.results.filter(data => 
-    data.name.toLowerCase().includes(keyword) || data.category.includes(keyword)
-  )
-  console.log(search)
-  res.render('index', { search })
-})
+// app.get('/search', (req, res) => {
+//   const keyword = req.query.keyword.toLowerCase().trim()
+//   const restaurants = Restaurant.results.filter(data => 
+//         data.name.includes(keyword) || data.category.includes(keyword))
+
+//     res.render('index', {search: restaurants, keyword: keyword })
+//     .catch(error => console.log(error))  
+// })
+
+
 
 app.listen(port, () => {
   console.log(`The Express is on http://localhost:${port}`)
