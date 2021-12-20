@@ -115,18 +115,6 @@ app.post('/restaurants/:id/delete', (req, res) => {
     .catch(error => console.log(error))
 })
 
-// search restaurant
-// app.get('/search', (req, res) => {
-//   const keyword = req.query.keyword.toLowerCase().trim()
-//   const restaurants = Restaurant.results.filter(data => 
-//         data.name.includes(keyword) || data.category.includes(keyword))
-
-//     res.render('index', {search: restaurants, keyword: keyword })
-//     .catch(error => console.log(error))  
-// })
-
-
-
 app.listen(port, () => {
   console.log(`The Express is on http://localhost:${port}`)
 })
