@@ -7,8 +7,10 @@ Icon?
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+*.gz
 
 # npm
 node_modules
 *.log
-*.gz
+
+
