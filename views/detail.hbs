@@ -1,5 +1,4 @@
-<form action="./restaurants/{{restaurant._id}}" method="get">
-  <h1 class="mb-1 restaurant-show-title">{{restaurant.name}}</h1>
+<h1 class="mb-1 restaurant-show-title">{{restaurant.name}}</h1>
   <div class="container">
     <div class="row">
       <div class="col-12 col-md-10 mx-auto">
@@ -38,11 +37,11 @@
         <img class="rounded mx-auto d-block mb-4 w-100"
           src="{{restaurant.image}}" alt="{{restaurant.name}}"
           style="max-width: 600px;">
-          <a href="/">回首頁</a>
-          <a href="/restaurants/{{restaurant._id}}_method=PUT">修改</a>
       </div>
-      
     </div>
-      
+        <a href="/">回首頁</a>
+        <a href="/restaurants/{{restaurant._id}}/edit">修改</a>
+        <form action="./restaurants/{{restaurant._id}}?_method=DELETE" method="POST" style="display: inline;">
+         <button type="submit" class="btn btn-danger">刪除</button>
+        </form>
   </div>
-</form>

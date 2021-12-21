@@ -1,0 +1,40 @@
+<form action="/restaurants/{{ restaurant._id }}?_method=PUT" method="POST">
+  <div>
+    餐廳中文名稱
+    <input type="text" placeholder="name" name="name" value="{{restaurant.name}}">
+  </div>
+  <div>
+    餐廳英文名稱
+    <input type="text" placeholder="name" name="name_en" value="{{restaurant.name_en}}">
+  </div>
+  <div>
+    分類
+    <input type="text" placeholder="中式料理" name="category" value="{{restaurant.category}}">
+  </div>
+  <div>
+    照片
+    <input type="url" placeholder="https://example.com" name="image" value="{{{restaurant.image}}}">
+  </div>
+  <div>
+    地點
+    <input type="text" placeholder="台北市羅斯福路三段 283 巷 17 號" name="location" value="{{restaurant.location}}">
+  </div>
+  <div>
+    電話
+    <input type="text" placeholder="02 2521 2813" name="phone" value="{{restaurant.phone}}">
+  </div>
+  <div>
+    地圖
+    <input type="url" placeholder="https://goo.gl/maps/cUJEmFSRKyH2" name="google_map" value="{{{restaurant.google_map}}}">
+  </div>
+  <div>
+    評分
+    <input type="number" placeholder="5" name="rating" value="{{restaurant.rating}}">
+  </div>
+  <div>
+    評分
+    <input type="text" placeholder="巴巴批塔是台灣第一家純手工批塔專賣店,只選用最新鮮的頂級原料,以及道地的中東家傳配方。" name="description" value="{{restaurant.description}}">
+  </div>
+  <button type="submit">儲存</button>
+  <a href="/">回首頁</a>
+</form>
