@@ -9,6 +9,7 @@ const mongoose = require('mongoose')
 //載入restaurant modal
 const Restaurant = require('./models/restaurant')
 mongoose.connect('mongodb://localhost/restaurant_list') //與資料庫連線
+const methodOverride = require('method-override')
 
 app.use(bodyParser.urlencoded({ extended: true}))
 
@@ -30,6 +31,8 @@ app.use(express.static('public'))
 // setting template engine
 app.engine('hbs', exphbs({defaultLayouts: 'main', extname: '.hbs'}))
 app.set('view engine', 'hbs')
+
+app.use(methodOverride('method'))
 
 // index 
 app.get('/', (req, res) => {
@@ -85,7 +88,7 @@ app.get('/restaurants/:id/edit', (req, res) => {
     .catch(error => console.error(error))
 })
 // edit post detail page
-app.post('/restaurants/:id/edit', (req, res) => {
+app.put('/restaurants/:id', (req, res) => {
   const id = req.params.id
   // const id = req.params
   const {name, nameEn, category, location, phone, rating, image, description, googleMap } = req.body
@@ -107,7 +110,7 @@ app.post('/restaurants/:id/edit', (req, res) => {
 })
 
 // delete restaurant
-app.post('/restaurants/:id/delete', (req, res) => {
+app.delete('/restaurants/:id', (req, res) => {
   const id = req.params.id
   Restaurant.findById(id)
     .then((restaurant) => restaurant.remove())
