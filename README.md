@@ -1,8 +1,7 @@
 # 介紹
 專屬自己的餐廳清單，可自行加入想要的資料。
 
-https://github.com/samhuang1992/RestaurantList/blob/6818462a80557fca2d00eb59812e2642b04aa747/%E6%88%AA%E5%9C%96%202021-12-20%20%E4%B8%8B%E5%8D%887.02.14.png
-
+![image](https://github.com/samhuang1992/RestaurantList/blob/6818462a80557fca2d00eb59812e2642b04aa747/%E6%88%AA%E5%9C%96%202021-12-20%20%E4%B8%8B%E5%8D%887.02.14.png)
 ## 功能
 - 搜尋餐廳
 - 新增餐廳
