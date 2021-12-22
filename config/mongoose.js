@@ -9,7 +9,7 @@ db.on('error', () => {
 })
 // 連線成功
 db.once('open', () => {
-  console.log('mondodb connected')
+  console.log('mongodb connected')
 })
 
 module.exports = db

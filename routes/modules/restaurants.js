@@ -18,6 +18,7 @@ router.get('/search', (req, res) => {
     .catch(error => console.log(error))
 })
 
+
 // get new
 router.get('/new', (req, res) => {
   res.render('new')

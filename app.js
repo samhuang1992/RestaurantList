@@ -4,10 +4,11 @@ const app = express()
 const port = 3000
 // 載入handlebars
 const exphbs = require('express-handlebars')
-//載入restaurant modal
+//載入restaurant.js
 const Restaurant = require('./models/restaurant')
 // Method-override區
 const methodOverride = require('method-override')
+// 引用路由器自動尋找下方index的檔案
 const routes = require('./routes')
 // 載入config mongoose 
 require('./config/mongoose')
