@@ -1,4 +1,5 @@
-<img href="./image/homepage.png">
+# 啟用首頁畫面
+![](https://github.com/samhuang1992/RestaurantList/blob/main/image/homepage.png)
 
 # 介紹
 專屬自己的餐廳清單，可自行加入想要的資料。
