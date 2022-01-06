@@ -5,7 +5,11 @@ const Restaurant = require('../../models/restaurant')
 
 // search restaurant
 router.get('/search', (req, res) => {
-  const keyword = req.query.keyword
+  const keyword = req.query.keyword.trim().toLowerCase()
+  console.log(keyword)
+  if(!keyword){
+    res.redirect('/')
+  }
   Restaurant.find()
     .lean()
     .then((restaurants) => {
@@ -16,6 +20,11 @@ router.get('/search', (req, res) => {
       res.render('index', { restaurants: search, keyword })
     })
     .catch(error => console.log(error))
+})
+
+// home
+router.get('/', (req, res) => {
+  res.render('index')
 })
 
 
