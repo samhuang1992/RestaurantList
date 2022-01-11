@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/restaurant_list') //與資料庫連線
+const MONGODB_URI = process.env.MONGODB_URI
+mongoose.connect(MONGODB_URI) //與資料庫連線
 
 // 取得資料庫連線狀態
 const db = mongoose.connection

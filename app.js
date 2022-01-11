@@ -4,7 +4,12 @@ const usePassport = require('./config/passport')
 const bodyParser = require('body-parser')
 const flash = require('connect-flash')
 const app = express()
-const port = 3000
+
+if(process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
+const PORT = process.env.PORT
 // 載入handlebars
 const exphbs = require('express-handlebars')
 //載入restaurant.js
@@ -13,6 +18,7 @@ const Restaurant = require('./models/restaurant')
 const methodOverride = require('method-override')
 // 引用路由器自動尋找下方index的檔案
 const routes = require('./routes')
+
 // 載入config mongoose 
 require('./config/mongoose')
 
@@ -25,7 +31,7 @@ app.set('view engine', 'hbs')
 app.use(methodOverride('_method'))
 
 app.use(session({
-  secret: 'mySecret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true
 }))
@@ -44,6 +50,6 @@ app.use((req, res, next) => {
 
 app.use(routes)
 
-app.listen(port, () => {
-  console.log(`The Express is on http://localhost:${port}`)
+app.listen(PORT, () => {
+  console.log(`The Express is on http://localhost:${PORT}`)
 })
