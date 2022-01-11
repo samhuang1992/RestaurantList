@@ -6,9 +6,10 @@ const home = require('./modules/home')
 // 引用/routes/modules/restaurants.js中所設定的「首頁」路由
 const restaurants = require('./modules/restaurants')
 const users = require('./modules/users')
+const { authenticator } = require('../middleware/auth')
 
-router.use('/', home)
-router.use('/restaurants', restaurants)
+router.use('/restaurants', authenticator, restaurants)
 router.use('/users', users)
+router.use('/', authenticator, home)
 
 module.exports = router
