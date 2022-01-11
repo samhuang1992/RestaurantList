@@ -1,8 +1,8 @@
+const bcrypt = require('bcryptjs')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 // const FacebookStrategy = require('passport-facebook').Strategy
 const User = require('../models/user')
-// const bcrypt = require('bcryptjs')
 
 module.exports = app => {
   // 初始化passport 模組
@@ -14,12 +14,14 @@ module.exports = app => {
       .then(user => {
         if (!user) {
           return done(null, false, {warning_msg:'這個 Email 尚未註冊!'})
-        }
-        if (user.password !== password) {
+        } 
+        return bcrypt.compare(password, user.password).then(isMatch => {
+        if (!isMatch) {
           return done(null, false, { message: 'Email or Password incorrect.' })
         }
         return done(null, user)
-      })
+       })
+    })
       .catch(err => done(err, false))
   }))
 
