@@ -1,4 +1,5 @@
 const express = require('express')
+const session = require('express-session')
 const bodyParser = require('body-parser')
 const app = express()
 const port = 3000
@@ -20,6 +21,12 @@ app.use(express.static('public'))
 app.engine('hbs', exphbs({defaultLayouts: 'main', extname: '.hbs'}))
 app.set('view engine', 'hbs')
 app.use(methodOverride('_method'))
+
+app.use(session({
+  secret: 'mySecret',
+  resave: false,
+  saveUninitialized: true
+}))
 
 app.use(routes)
 
