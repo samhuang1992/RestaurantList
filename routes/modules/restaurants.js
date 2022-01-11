@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-
 const Restaurant = require('../../models/restaurant')
 
 // search restaurant
@@ -27,7 +26,6 @@ router.get('/', (req, res) => {
   res.render('index')
 })
 
-
 // get new
 router.get('/new', (req, res) => {
   res.render('new')
@@ -35,35 +33,40 @@ router.get('/new', (req, res) => {
 
 // post new
 router.post('/', (req, res) => {
-Restaurant.create(req.body)
+  const userId = req.user._id
+  const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
+  Restaurant.create({name, name_en, category, image, location, phone, google_map, rating, description, userId})
   .then(() => {res.redirect('/')})
   .then(error => console.log(error))
 })
 
-// click index
+// detial
 router.get('/:id', (req, res) => {
-  const id = req.params.id
+  const userId = req.user._id
+  const _id = req.params.id
   // console.log(id)
-  return Restaurant.findById(id)
+  return Restaurant.findById({_id, userId})
     .lean()
     .then(restaurant => res.render('detail', {restaurant}))
     .catch(error => console.log(error))
 })
 
-// edit get detail page
+// edit
 router.get('/:id/edit', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
+  const userId = req.user._id
+  const _id = req.params.id
+  return Restaurant.findById({_id, userId})
     .lean()
     .then(restaurant => res.render('edit', { restaurant }))
     .catch(error => console.error(error))
 })
 // edit post detail page
 router.put('/:id', (req, res) => {
-  const id = req.params.id
+  const userId = req.user._id
+  const _id = req.params.id
   // const id = req.params
   const {name, nameEn, category, location, phone, rating, image, description, googleMap } = req.body
-  return Restaurant.findById(id)
+  return Restaurant.findById({_id, userId})
     .then(restaurant => {
       restaurant.name = name
       restaurant.nameEn = nameEn
@@ -80,10 +83,11 @@ router.put('/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 
-// delete restaurant
+// delete
 router.delete('/:id', (req, res) => {
-  const id = req.params.id
-  Restaurant.findById(id)
+  const userId = req.user._id
+  const _id = req.params.id
+  Restaurant.findById({_id, userId})
     .then((restaurant) => restaurant.remove())
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
