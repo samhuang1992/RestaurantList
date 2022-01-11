@@ -5,7 +5,6 @@ const Restaurant = require('../../models/restaurant')
 // search restaurant
 router.get('/search', (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase()
-  console.log(keyword)
   if(!keyword){
     res.redirect('/')
   }
@@ -34,13 +33,14 @@ router.get('/new', (req, res) => {
 // post new
 router.post('/', (req, res) => {
   const userId = req.user._id
+  console.log(userId)
   const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
   Restaurant.create({name, name_en, category, image, location, phone, google_map, rating, description, userId})
   .then(() => {res.redirect('/')})
   .then(error => console.log(error))
 })
 
-// detial
+// detail
 router.get('/:id', (req, res) => {
   const userId = req.user._id
   const _id = req.params.id
