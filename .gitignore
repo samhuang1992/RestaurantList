@@ -13,4 +13,6 @@ Desktop.ini
 node_modules
 *.log
 
+.env
+.image
 
